@@ -31,6 +31,17 @@ class AbstractMelonOrder():
 
         self.shipped = True
 
+class GovernmentMelonOrder(AbstractMelonOrder):
+    """Orders need to pass security inspection."""
+
+    def __init__(self, species, qty, passed_inspection):
+        super().__init(species, qty, "government", 0.0)
+        self.passed_inspection = False #until a successful inspection occurs
+
+    def mark_inspection(self, passed):
+        self.passed_inspection = passed 
+
+
 class DomesticMelonOrder(AbstractMelonOrder):
     """A melon order within the USA."""
 
