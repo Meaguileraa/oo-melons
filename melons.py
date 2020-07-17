@@ -1,4 +1,8 @@
 """Classes for melon orders."""
+
+from random import randint 
+#randint (includes 5 and 9) vs randrange (start stop step, doesnt include 9)
+
 class AbstractMelonOrder():
     """An abstract base class that other Melon Orders inherit from."""
 
@@ -9,10 +13,19 @@ class AbstractMelonOrder():
         self.tax = tax
         self.order_type = order_type
 
+    def get_base_price(self):
+        """Change the base price to a random integer for splurge pricing"""
+
+        base_price = randint(5, 9)
+        
+        return base_price 
+
+
     def get_total(self):
         """Calculate price, including tax."""
 
-        base_price = 5
+        base_price = self.get_base_price()
+        #base_price = 5
         total = (1 + self.tax) * self.qty * base_price
 
         if self.species == "Christmas melons":
@@ -23,7 +36,6 @@ class AbstractMelonOrder():
             total += 3
         
             #international orders less than 10 get $3 added
-
         return total
 
     def mark_shipped(self):
@@ -34,8 +46,8 @@ class AbstractMelonOrder():
 class GovernmentMelonOrder(AbstractMelonOrder):
     """Orders need to pass security inspection."""
 
-    def __init__(self, species, qty, passed_inspection):
-        super().__init(species, qty, "government", 0.0)
+    def __init__(self, species, qty):
+        super().__init__(species, qty, "government", 0.0)
         self.passed_inspection = False #until a successful inspection occurs
 
     def mark_inspection(self, passed):
@@ -48,7 +60,6 @@ class DomesticMelonOrder(AbstractMelonOrder):
     def __init__(self, species, qty):
         """Initialize melon order attributes."""
         super().__init__(species, qty, "domestic", 0.08)
-        #what's in the parenthesis on line 30 comes from line 5
         #based on what is in the super class "AbstractMelonOrder"
 
 
@@ -57,7 +68,7 @@ class InternationalMelonOrder(AbstractMelonOrder):
 
     def __init__(self, species, qty, country_code):
         """Initialize melon order attributes."""
-        super().__init__(species, qty, "international" 0.17)
+        super().__init__(species, qty, "international", 0.17)
         self.country_code = country_code
 
 
