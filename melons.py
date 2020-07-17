@@ -15,6 +15,15 @@ class AbstractMelonOrder():
         base_price = 5
         total = (1 + self.tax) * self.qty * base_price
 
+        if self.species == "Christmas melons":
+            base_price = base_price * 1.5 
+        total = (1 + self.tax) * self.qty * base_price
+
+        if self.order_type == "international" and self.qty < 10:
+            total += 3
+        
+            #international orders less than 10 get $3 added
+
         return total
 
     def mark_shipped(self):
