@@ -3,6 +3,8 @@
 from random import randint 
 #randint (includes 5 and 9) vs randrange (start stop step, doesnt include 9)
 
+import datetime 
+
 class AbstractMelonOrder():
     """An abstract base class that other Melon Orders inherit from."""
 
@@ -16,7 +18,13 @@ class AbstractMelonOrder():
     def get_base_price(self):
         """Change the base price to a random integer for splurge pricing"""
 
-        base_price = randint(5, 9)
+        base_price = randint(5, 9) #splurge rate
+        now = datetime.datetime.now()
+
+        #(8 am - 11 am, Monday - Frday) Rush hour 
+
+        if now.hour >= 8 and now.hour() <= 11 and now.weekday() < 5:
+            base_price += 4
         
         return base_price 
 
